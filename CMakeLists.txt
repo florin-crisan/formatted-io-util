@@ -1,12 +1,16 @@
 cmake_minimum_required(VERSION 3.5)
 project(fc-formatted-io-util CXX)
 
+option(BEAUTIFY_TYPENAMES "Prints std::string instead of std:basic_string<char, std::char_traits<char>, ...> and so on" ON)
+
+#-----------------------------------------------------------------------------
+
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
 enable_testing()
 
-find_package(Boost 1.33 REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost 1.33 REQUIRED COMPONENTS unit_test_framework regex)
 
 add_library(fc-formatted-io-util
 	include/fcrisan/formatted-io-util/chars.hpp
@@ -20,9 +24,13 @@ set_property(
 	include/fcrisan/formatted-io-util/chars.hpp
 	include/fcrisan/formatted-io-util/type_info.hpp
 	)
+if (BEAUTIFY_TYPENAMES)
+	target_compile_definitions(fc-formatted-io-util PUBLIC FCRISAN_FORMATTED_IO_UTIL_BEAUTIFY_TYPENAMES)
+endif()
 target_link_libraries(fc-formatted-io-util
 	PUBLIC
 		Boost::boost
+		Boost::regex
 	)
 target_include_directories(fc-formatted-io-util
 	PUBLIC
