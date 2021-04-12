@@ -3,6 +3,7 @@
 These are various formatted I/O (i.e., fancy printing to `std::ostream`) utilities that I have repeatedly written throughout the years but never formally collected into a reusable library.
 
 * A set of `operator <<` to properly print `signed char` and `unsigned char` (numbers) as distinct from plain `char` (printable character).
+* `operator<<` to print `std::type_info` (properly demangles names on GCC; on Visual C++ no demangling is necessary).
 
 ## Requirements
 
