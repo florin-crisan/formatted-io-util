@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+
+# Broken in CMake 3.5?
+#include(CMakeFindDependencyMacro)
+#find_dependency(Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@ EXACT)
+
+# Make sure we find the exact same version of Boost used to build, in order to minimize confusion.
+find_package(Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@ EXACT REQUIRED COMPONENTS unit_test_framework)
+
+include(${CMAKE_CURRENT_LIST_DIR}/FCrisanFormattedIOUtil_Targets.cmake)
