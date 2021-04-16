@@ -15,6 +15,8 @@ find_package(Boost 1.33 REQUIRED COMPONENTS unit_test_framework regex)
 add_library(fc-formatted-io-util
 	include/fcrisan/formatted-io-util/chars.hpp
 	src/chars.cpp
+	include/fcrisan/formatted-io-util/exception.hpp
+	src/exception.cpp
 	include/fcrisan/formatted-io-util/type_info.hpp
 	src/type_info.cpp
 	)
@@ -22,6 +24,7 @@ set_property(
 	TARGET fc-formatted-io-util
 	PROPERTY PUBLIC_HEADER
 	include/fcrisan/formatted-io-util/chars.hpp
+	include/fcrisan/formatted-io-util/exception.hpp
 	include/fcrisan/formatted-io-util/type_info.hpp
 	)
 if (BEAUTIFY_TYPENAMES)
@@ -42,6 +45,7 @@ add_library(FCrisanFormattedIOUtil::fc-formatted-io-util ALIAS fc-formatted-io-u
 
 add_executable(fc-formatted-io-util-test
 	unittest/chars.cpp
+	unittest/exception.cpp
 	unittest/type_info.cpp
 	)
 target_link_libraries(fc-formatted-io-util-test
