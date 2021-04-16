@@ -55,6 +55,49 @@ target_link_libraries(fc-formatted-io-util-test
 	)
 add_test(fc-formatted-io-util-test fc-formatted-io-util-test)
 
+file(TO_NATIVE_PATH "${Boost_INCLUDE_DIRS}" Boost_INCLUDE_DIRS_NATIVE)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+	# GCC-like external includes introduced in Visual Studio 2017 version 15.6 Preview 1 apparently
+	# https://devblogs.microsoft.com/cppblog/broken-warnings-theory/
+	if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER "19.13")
+		target_compile_options(fc-formatted-io-util
+			PUBLIC
+				/Wall
+
+				/experimental:external
+				/external:env:INCLUDE
+				/external:I "${Boost_INCLUDE_DIRS_NATIVE}"
+				/external:W0
+				#/external:templates-
+			)
+	else()
+		target_compile_options(fc-formatted-io-util
+			PUBLIC
+				/W4
+			)
+	endif()
+
+	target_compile_options(fc-formatted-io-util
+		PUBLIC
+			/wd4514 # unreferenced inline function has been removed
+			/wd4710 # function not inlined
+			/wd4820 # n bytes padding added after data member
+			#/wo4571 # Informational: catch(...) semantics changed since Visual C++ 7.1; structured exceptions (SEH) are no longer caught
+			/wd4571
+		)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	target_compile_options(fc-formatted-io-util
+		PUBLIC
+			-Wall
+			-Wextra
+			-pedantic
+			-Wno-long-long
+			-Wfloat-equal
+			-Wconversion
+		)
+endif()
+
 #-----------------------------------------------------------------------------
 
 install(TARGETS fc-formatted-io-util
